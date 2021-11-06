@@ -1,0 +1,44 @@
+---
+title: "Snowshoe Report - Emily Pelstring"
+author: "Emily Pelstring"
+date: "11/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggthemes)
+library(lubridate)
+```
+
+## Overview 
+
+## Data and Analyses 
+
+## Juvenile Hare Initial Investigation 
+
+```{r}
+## Reading in the Data 
+bonanza_hares <- read.csv(here("data", "bonanza_hares.csv"))
+
+## Creating a column to include years 
+bonanza_hares <- bonanza_hares %>%
+  mutate(date_new = mdy(date)) %>%
+  mutate(year_new = year(date_new))
+
+## total hare trap counts 
+total_hare_trapcounts <- bonanza_hares %>%
+  group_by(year_new) %>%
+  count()
+
+## visualization of total hare trap counts 
+total_hare_trapcounts %>%
+  ggplot(aes(x = year_new,
+             y = n)) +
+  geom_col()
+
+```
+
