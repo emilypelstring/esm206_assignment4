@@ -32,13 +32,28 @@ bonanza_hares <- bonanza_hares %>%
 ## total hare trap counts 
 total_hare_trapcounts <- bonanza_hares %>%
   group_by(year_new) %>%
+  filter(age == "j") %>%
   count()
+
+## Mean and Median of Count
+mean_count <- round(mean(total_hare_trapcounts$n), 1)
+median_count <- round(median(total_hare_trapcounts$n), 1)
 
 ## visualization of total hare trap counts 
 total_hare_trapcounts %>%
   ggplot(aes(x = year_new,
              y = n)) +
-  geom_col()
+  geom_col() + 
+  theme_solarized() +
+  theme(text = element_text(size = 14, family = "Times New Roman")) +
+  labs(x = "Year",
+       y = "Number of Hares",
+       title = "Total Juvenile Hare Trap Counts by Year (PELSTRING)")
 
 ```
 
+**Figure (FILL FIGURE NUMBER).** Total number of juvenile hares observed from the years 1999 - 2012. Each bar signifies total number (y-axis) of juvenile hares observed by year (x-axis). Data: (ADD DATA CITATION).
+
+### Major Findings 
+
+Among reporting years, the highest number of juvenille hare observations was in 1996 with 126 observations, while the lowest took place in 2010 with 2 observations. The mean number of juvenille hare observations per year is `r mean_count` hares, and the median number of juvenille hare observations through all years is `r median_count` hares. According to the column graph, it appears as though there was a marked decline in juvenile hare populations from when observations first began in 1996. This decline in juvenile hare observations may signal that there is a decline in reproduction rates of adult hares; however, before these assumptions can be made, sampling methodology must be examined. Dividing each observation by number of days spent recording, as well as number of traps set out, would help to normalize the data between years. 
