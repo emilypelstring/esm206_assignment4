@@ -79,3 +79,30 @@ ggplot(data = juvenile_hares, aes(x = grid, y = weight)) + #selecting data, sett
        title = "Weight of Juvenile Hares by Sex and Site (PELSTRING)") #adding title 
 ```
 **Figure (FILL FIGURE NUMBER).** Distribution of weight of juvenile hares at three sampling sites, separated by sex via coloring. Site is displayed on the x-axis while weight is displayed on the y-axis, while the color of the dots differentiates between female and male hare observations. The amount of observations between sites varied, with bonbs having the lowest number of observations available and bonrip (Bonanza Riparian) with the highest number of samples available. 
+
+### Main Takeaways 
+
+According to the graph, it appears that there are no significant differences between male and female juvenile hare weights in any of the three observation sites. There is also no significant difference in distribution of weights between the three sites. There are fewer observations available at the bonbs site compared to the bonmat and bonrip site, which may impact the ability to draw conclusions regarding the lack of significant difference in weights between that and the two other sites. 
+
+## Juvenile Weight Comparison (male & female snowshoe hares)
+
+**Table 1.** Descriptive statistics (mean, standard deviation, sample size) for male and female juvenile hares. Data: (ADD DATA CITATION)
+```{r}
+juvenile_table <- juvenile_hares %>%
+  group_by(sex) %>%
+  mutate(sex = case_when(
+    sex %in% c("f") ~ "Female",
+    sex %in% c("m") ~ "Male",
+    sex %in% c("NA") ~ "NA")) %>%
+  summarize(
+    mean_juvenile_weight = round(mean(weight, na.rm = TRUE), 1),
+    sd_juvenile_weight= round(sd(weight, na.rm = TRUE), 1),
+    n = n())
+
+juvenile_table %>%
+  kable(col.names = c("Sex", "Mean Juvenile Weight (g)", "Standard Deviation", "Sample Size")) %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+   
+   
+```
+
