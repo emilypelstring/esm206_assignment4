@@ -12,9 +12,11 @@ library(here)
 library(janitor)
 library(ggthemes)
 library(lubridate)
+library(ggbeeswarm)
+library(kableExtra)
 ```
 
-## Overview 
+## Introduction
 
 ## Data and Analyses 
 
@@ -57,3 +59,23 @@ total_hare_trapcounts %>%
 ### Major Findings 
 
 Among reporting years, the highest number of juvenille hare observations was in 1996 with 126 observations, while the lowest took place in 2010 with 2 observations. The mean number of juvenille hare observations per year is `r mean_count` hares, and the median number of juvenille hare observations through all years is `r median_count` hares. According to the column graph, it appears as though there was a marked decline in juvenile hare populations from when observations first began in 1996. This decline in juvenile hare observations may signal that there is a decline in reproduction rates of adult hares; however, before these assumptions can be made, sampling methodology must be examined. Dividing each observation by number of days spent recording, as well as number of traps set out, would help to normalize the data between years. 
+
+## Visualize Juvenile Hare Weights by Site and Sex
+
+```{r}
+## Filtering for only juvenile hares 
+juvenile_hares <- bonanza_hares %>%
+  filter(age == "j") #filtering for anly juvenile
+
+## Plotting for Juvenile hare weights by site and sex. 
+ggplot(data = juvenile_hares, aes(x = grid, y = weight)) + #selecting data, setting x value as site and y value as weight 
+  geom_beeswarm(aes(color = sex)) + #type of graph, splitting color by sex
+  scale_color_manual(values = c("aquamarine2","chocolate1","coral"), #adding specific colors by vector 
+                     name = "Sex", labels = c("female", "male", "NA")) + #changing label text
+  theme_solarized() + #adding theme
+  theme(text = element_text(size = 14, family = "Times New Roman")) + #changing graph text size and font
+  labs(x = "Site", #adding labels
+       y = "Weight (grams)",
+       title = "Weight of Juvenile Hares by Sex and Site (PELSTRING)") #adding title 
+```
+**Figure (FILL FIGURE NUMBER).** Distribution of weight of juvenile hares at three sampling sites, separated by sex via coloring. Site is displayed on the x-axis while weight is displayed on the y-axis, while the color of the dots differentiates between female and male hare observations. The amount of observations between sites varied, with bonbs having the lowest number of observations available and bonrip (Bonanza Riparian) with the highest number of samples available. 
