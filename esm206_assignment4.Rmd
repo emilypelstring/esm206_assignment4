@@ -14,6 +14,7 @@ library(ggthemes)
 library(lubridate)
 library(ggbeeswarm)
 library(kableExtra)
+library(effsize)
 ```
 
 ## Introduction
@@ -104,5 +105,34 @@ juvenile_table %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
    
    
+```
+
+## Means Comparisons 
+
+```{r}
+# Finding difference in means 
+
+difference_in_means <- juvenile_table$mean_juvenile_weight[2] - juvenile_table$mean_juvenile_weight[1]
+
+# storing vectors for male and female weights for use in Cohen and T-test
+
+female_weight <- juvenile_hares %>% #vector for female weights
+  filter(sex == "f") %>% #filtering for only female
+  drop_na(weight) %>% #removing na values
+  pull(weight) #vector of just the weight column
+
+male_weight <- juvenile_hares %>% #vector for male weights
+  filter(sex == "m") %>% #filtering for only male
+  drop_na(weight) %>% #removing na values
+  pull(weight) #vector of just the weight column
+
+weight_t <- t.test(x = male_weight, y = female_weight) # t-test
+
+weight_t #viewing t-test
+
+weight_cohen <- cohen.d(female_weight, male_weight) #effect size 
+
+weight_cohen #viewing cohen 
+
 ```
 
