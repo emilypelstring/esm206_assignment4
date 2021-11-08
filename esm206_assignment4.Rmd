@@ -19,9 +19,9 @@ library(effsize)
 
 ## Introduction
 
-## Data and Analyses 
+## Data and Analyses
 
-## Juvenile Hare Initial Investigation 
+## Juvenile Hare Initial Investigation
 
 ```{r}
 ## Reading in the Data 
@@ -47,8 +47,8 @@ total_hare_trapcounts %>%
   ggplot(aes(x = year_new,
              y = n)) +
   geom_col() + 
-  theme_solarized_2() +
-  theme(text = element_text(size = 14, family = "Times New Roman")) +
+  theme_economist() +
+  theme(text = element_text(size = 11, family = "Times New Roman")) +
   labs(x = "Year",
        y = "Number of Hares",
        title = "Total Juvenile Hare Trap Counts by Year (PELSTRING)")
@@ -66,24 +66,29 @@ Among reporting years, the highest number of juvenille hare observations was in 
 ```{r}
 ## Filtering for only juvenile hares 
 juvenile_hares <- bonanza_hares %>%
-  filter(age == "j") #filtering for anly juvenile
+  filter(age == "j") %>% 
+  mutate(grid = case_when(
+    grid %in% c("bonrip") ~ "Riparian",
+    grid %in% c("bonbs") ~ "Black Spruce",
+    grid %in% c("bonmat") ~ "Mature Mixed"))
 
 ## Plotting for Juvenile hare weights by site and sex. 
-ggplot(data = juvenile_hares, aes(x = grid, y = weight)) + #selecting data, setting x value as site and y value as weight 
+ggplot(data = juvenile_hares, aes(x = sex, y = weight)) + #selecting data, setting x value as site and y value as weight 
   geom_beeswarm(aes(color = sex)) + #type of graph, splitting color by sex
-  scale_color_manual(values = c("aquamarine2","chocolate1","coral"), #adding specific colors by vector 
+  scale_color_manual(values = c("coral","blue3","coral"), #adding specific colors by vector 
                      name = "Sex", labels = c("female", "male", "NA")) + #changing label text
-  theme_solarized_2() + #adding theme
-  theme(text = element_text(size = 14, family = "Times New Roman")) + #changing graph text size and font
-  labs(x = "Site", #adding labels
-       y = "Weight (grams)",
-       title = "Weight of Juvenile Hares by Sex and Site (PELSTRING)") #adding title 
+  theme_economist() + #adding theme
+  theme(text = element_text(size = 10, family = "Times New Roman")) + #changing graph text size and font
+  labs(x = "", #labeling axes
+       y = "Weight (grams)",#labeling axes
+       title = "Weight of Juvenile Hares by Sex and Site (PELSTRING)") + #adding title
+  facet_wrap(~grid) #faceting by site 
 ```
-**Figure (FILL FIGURE NUMBER).** Distribution of weight of juvenile hares at three sampling sites, separated by sex via coloring. Site is displayed on the x-axis while weight is displayed on the y-axis, while the color of the dots differentiates between female and male hare observations. The amount of observations between sites varied, with bonbs having the lowest number of observations available and bonrip (Bonanza Riparian) with the highest number of samples available. 
+**Figure (FILL FIGURE NUMBER).** Distribution of weight of juvenile hares at three sampling sites, separated by sex via coloring. Sex is displayed on the x-axis while weight is displayed on the y-axis, and the data is faceted by site. The amount of observations between sites varied, with bonbs (Bonanza Back Spruce) having the lowest number of observations available and bonrip (Bonanza Riparian) with the highest number of samples available.
 
 ### Main Takeaways 
 
-According to the graph, it appears that there are no significant differences between male and female juvenile hare weights in any of the three observation sites. There is also no significant difference in distribution of weights between the three sites. There are fewer observations available at the bonbs site compared to the bonmat and bonrip site, which may impact the ability to draw conclusions regarding the lack of significant difference in weights between that and the two other sites. 
+According to the graph, it appears that there are no significant differences between male and female juvenile hare weights in any of the three observation sites. It appears as though the weight of male juvenile hares is slightly higher than the weight of female juvenile hares. There is also no significant difference in distribution of weights between the three sites. There are fewer observations available at the bonbs site compared to the bonmat and bonrip site, which may impact the ability to draw conclusions regarding the lack of significant difference in weights between that and the two other sites. 
 
 ## Juvenile Weight Comparison (male & female snowshoe hares)
 
@@ -159,8 +164,8 @@ Mean weight for male juvenile hares (`r round(weight_t$estimate[1],2)` g) is gre
 ggplot(data = juvenile_hares,
        aes(x = weight, y = hindft)) +
   geom_jitter() +
-  theme_solarized_2() +
-  theme(text = element_text(size = 14, family = "Times New Roman")) +
+  theme_economist() +
+  theme(text = element_text(size = 11, family = "Times New Roman")) +
   labs(x = "Weight (g)",
        y = "Hind Foot Length (mm)",
        title = "Weight Versus Hind Foot Length (PELSTRING)")
