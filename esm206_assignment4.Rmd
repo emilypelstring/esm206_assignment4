@@ -178,7 +178,7 @@ ggplot(data = juvenile_hares, #selecting for the data
        y = "Hind Foot Length (mm)",
        title = "Weight Versus Hind Foot Length (PELSTRING)") #title
 ```
-**Figure 3.** Distribution of weight (in grams) of juvenile hares versus hind foot length (in millimeters). Juvenile hare weight is displayed on the x-axis, while hind foot length is on the y-axis. Each hare observation is represented by a dot on the graph. Data: (Kielland et al. 2017).
+**Figure 3.** Distribution of weight (in grams) of juvenile hares versus hind foot length (in millimeters). Juvenile hare weight is displayed on the x-axis, while hind foot length is on the y-axis. Each hare observation is represented by a dot on the graph. Simple linear regression is plotted on the graph by the blue line. Data: (Kielland et al. 2017).
 
 ```{r}
 ## Finding Pearson Coefficient and LM
@@ -200,7 +200,7 @@ hare_lm_tidy <- tidy(hare_lm) #tidying lm
 # hare_lm_tidy #viewing tidy lm
 
 ```
-The relationship between juvenile hare weight and hind foot length appears relatively linear (Figure 3). Linear regression revealed that weight significantly predicts hind foot length (p < 0.001, R^2^ = `r round(hare_lm_glance$r.squared,2)`) with an average slope of $\beta$ = `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. Weight and hind foot length are moderately, and significantly, positively correlated (Pearson's *r* = `r round(hare_cor_tidy$estimate,2)`, p < 0.001). One issue with linear regression in this instance is that homoscedasticity is not satisfied. I do not think this linear regression will represent the relationship between hind foot length and weight in the best way, given that the variance in residuals does not seem homogeneous throughout the spread of samples. 
+The relationship between juvenile hare weight and hind foot length appears relatively linear (Figure 3). Linear regression revealed that weight predicts hind foot length (p < 0.001, R^2^ = `r round(hare_lm_glance$r.squared,2)`) with an average slope of $\beta$ = `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. Weight and hind foot length are moderately, and significantly, positively correlated (Pearson's *r* = `r round(hare_cor_tidy$estimate,2)`, p < 0.001). One issue with linear regression in this instance is that homoscedasticity is not satisfied. I do not think this linear regression will represent the relationship between hind foot length and weight in the best way, given that the variance in residuals does not seem homogeneous throughout the spread of samples. 
 
 ### 4. Summary
 
@@ -208,7 +208,7 @@ This data analysis reveals these initial findings:
 
 - The total juvenile hare trap counts by year steadily declined from the beginning of sampling (1999) to the end (2012).
 - There is a statistically significant difference in means between male and female juvenile snowshoe hare weights and the effect size is small. 
-- The relationship between juvenile hare weight and hind foot length is relatively linear (by simple linear regression), with a slope (expected average increase in hind foot length (in mm) with a 1 gram increase of body weight) of `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. 
+- The relationship between juvenile hare weight and hind foot length is mildly linear (by simple linear regression), with a slope (expected average increase in hind foot length (in mm) with a 1 gram increase of body weight) of `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. 
 
 ### 5. Citation 
 
