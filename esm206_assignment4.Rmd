@@ -164,6 +164,7 @@ Mean weight for male juvenile hares (`r round(weight_t$estimate[1],2)` g) is gre
 ggplot(data = juvenile_hares,
        aes(x = weight, y = hindft)) +
   geom_jitter() +
+  geom_smooth(method = "lm") +
   theme_economist() +
   theme(text = element_text(size = 11, family = "Times New Roman")) +
   labs(x = "Weight (g)",
@@ -171,3 +172,24 @@ ggplot(data = juvenile_hares,
        title = "Weight Versus Hind Foot Length (PELSTRING)")
 ```
 **Figure (FILL FIGURE NUMBER).** Distribution of weight (in grams) of juvenile hares versus hind foot length (in millimeters). Juvenile hare weight is displayed on the x-axis, while hind foot length is on the y-axis. Each hare observation is represented by a dot on the graph. 
+
+```{r}
+## Finding Pearson Coefficient and LM
+hare_cor <- cor.test(juvenile_hares$weight, juvenile_hares$hindft)
+
+hare_cor_tidy <- tidy(hare_cor)
+
+hare_cor_tidy
+
+hare_lm <- lm(weight ~ hindft, data = juvenile_hares)
+
+hare_lm_glance <- glance(hare_lm)
+
+hare_lm_glance
+
+hare_lm_tidy <- tidy(hare_lm)
+
+hare_lm_tidy
+
+```
+The relationship between juvenile hare weight and hind foot length appears relatively linear (Figure FILL FIGURE NUMBER LATER). Linear regression revealed that weight significantly predicts hind foot length (p < 0.001, R^2^ = `r round(hare_lm_glance$r.squared,2)`) with an average slope of $\beta$ = `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. Weight and hind foot length are moderately, and significantly, positively correlated (Pearson's *r* = `r round(hare_cor_tidy$estimate,2)`, p < 0.001). One issue with linear regression in this instance is that homoscedasticity is not satisfied. I do not think this linear regression will represent the relationship between hind foot length and weight in the best way, given that the variance in residuals does not seem homogenous throughout the spread of samples. 
