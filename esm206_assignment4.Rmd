@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE, warning = FALSE, message = FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(here)
 library(janitor)
@@ -17,9 +17,13 @@ library(kableExtra)
 library(effsize)
 ```
 
-## Introduction
+### 1. Introduction
 
-## Data and Analyses
+This report provides an exploratory overview of juvenile snowshoe hare (Lepus americanus) populations in Alaska at three different sampling locations from 1999 to 2012 (Kielland et al. 2017). Several components were looked at regarding the hare population, the first being juvenile hare trap count by year. Then, the weight of juvenile hares were compared with regards to sex and collection site. Finally, the difference between male and female juvenile hare weights are compared using descriptive statistics and means comparisons. 
+
+### 2. Data and Methods
+
+Physical data about juvenile snowshoe hares was made available by Knut Kielland and colleagues at 5 locales in the Tanana valley, Alaska. The data contains observations for 3197 hares, juvenile and adult, collected from the years of 1999 to 2012. Following exploratory visualization, mean weights of juvenile male and female hares were compared by two-sample t-tests using a significance level ($\alpha$) of 0.05 throughout. Differences between groups are described by Cohen's *d* effect size. The relationship between weight and hind foot length is explored by simple linear regression. All analyses are in R Studio version 1.4.1717 and R version 4.1.1. 
 
 ## Juvenile Hare Initial Investigation
 
@@ -59,7 +63,7 @@ total_hare_trapcounts %>%
 
 ### Major Findings 
 
-Among reporting years, the highest number of juvenille hare observations was in 1996 with 126 observations, while the lowest took place in 2010 with 2 observations. The mean number of juvenille hare observations per year is `r mean_count` hares, and the median number of juvenille hare observations through all years is `r median_count` hares. According to the column graph, it appears as though there was a marked decline in juvenile hare populations from when observations first began in 1996. This decline in juvenile hare observations may signal that there is a decline in reproduction rates of adult hares; however, before these assumptions can be made, sampling methodology must be examined. Dividing each observation by number of days spent recording, as well as number of traps set out, would help to normalize the data between years. 
+Among reporting years, the highest number of juvenile hare observations was in 1996 with 126 observations, while the lowest took place in 2010 with 2 observations. The mean number of juvenille hare observations per year is `r mean_count` hares, and the median number of juvenile hare observations through all years is `r median_count` hares. According to the column graph, it appears as though there was a marked decline in juvenile hare populations from when observations first began in 1996. This decline in juvenile hare observations may signal that there is a decline in reproduction rates of adult hares; however, before these assumptions can be made, sampling methodology must be examined. Dividing each observation by number of days spent recording, as well as number of traps set out, would help to normalize the data between years. 
 
 ## Visualize Juvenile Hare Weights by Site and Sex
 
@@ -175,6 +179,7 @@ ggplot(data = juvenile_hares,
 
 ```{r}
 ## Finding Pearson Coefficient and LM
+
 hare_cor <- cor.test(juvenile_hares$weight, juvenile_hares$hindft)
 
 hare_cor_tidy <- tidy(hare_cor)
@@ -192,4 +197,4 @@ hare_lm_tidy <- tidy(hare_lm)
 hare_lm_tidy
 
 ```
-The relationship between juvenile hare weight and hind foot length appears relatively linear (Figure FILL FIGURE NUMBER LATER). Linear regression revealed that weight significantly predicts hind foot length (p < 0.001, R^2^ = `r round(hare_lm_glance$r.squared,2)`) with an average slope of $\beta$ = `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. Weight and hind foot length are moderately, and significantly, positively correlated (Pearson's *r* = `r round(hare_cor_tidy$estimate,2)`, p < 0.001). One issue with linear regression in this instance is that homoscedasticity is not satisfied. I do not think this linear regression will represent the relationship between hind foot length and weight in the best way, given that the variance in residuals does not seem homogenous throughout the spread of samples. 
+The relationship between juvenile hare weight and hind foot length appears relatively linear (Figure FILL FIGURE NUMBER LATER). Linear regression revealed that weight significantly predicts hind foot length (p < 0.001, R^2^ = `r round(hare_lm_glance$r.squared,2)`) with an average slope of $\beta$ = `r round(hare_lm_tidy$estimate[2], 2)` g mm^-1^. Weight and hind foot length are moderately, and significantly, positively correlated (Pearson's *r* = `r round(hare_cor_tidy$estimate,2)`, p < 0.001). One issue with linear regression in this instance is that homoscedasticity is not satisfied. I do not think this linear regression will represent the relationship between hind foot length and weight in the best way, given that the variance in residuals does not seem homogeneous throughout the spread of samples. 
